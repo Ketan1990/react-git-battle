@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 var styles = {
  content: {
@@ -6,7 +7,7 @@ var styles = {
  }
 };
 
-class Loading extends React.Component {
+class Loading extends Component {
  constructor(props) {
    super(props);
 

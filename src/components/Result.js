@@ -2,27 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import  queryString from 'query-string';
 import api from '../service/api';
-import {Link} from 'react-router-dom';
 import UserPreview from './UserPreview';
 import  Loading from './Loading';
-import {Grid,Row,Col} from 'react-bootstrap';
+import {Grid,Row,Col,Badge} from 'react-bootstrap';
+import {Link} from "react-router-dom";
+import style from './Result.scss';
 
 function Profile (props) {
   var info = props.info;
 
   return (
     <UserPreview username={info.login} avatar={info.avatar_url}>
-      <ul className='space-list-items'>
-        {info.name && <li>{info.name}</li>}
-        {info.location && <li>{info.location}</li>}
-        {info.company && <li>{info.company}</li>}
-        <li>Followers: {info.followers}</li>
-        <li>Following: {info.following}</li>
-        <li>Public Repos: {info.public_repos}</li>
-        {info.blog && <li><a href={info.blog}>{info.blog}</a></li>}
+      <ul className='list-group'>
+        <li className='list-group-item'><strong>Name: </strong> {info.name}</li>
+        <li className='list-group-item'><strong>Location: </strong> {info.location}</li>
+        <li className='list-group-item'><strong>Company: </strong> {info.company}</li>
+        <li className='list-group-item'><strong>Followers: </strong>  <Badge variant="success">{info.followers}</Badge></li>
+        <li className='list-group-item'><strong>Following: </strong><Badge variant="warning"> {info.following}</Badge></li>
+        <li className='list-group-item'><strong>Public Repos:</strong><Badge variant="danger"> {info.public_repos}</Badge></li>
+        <li className='list-group-item'><strong>Blog:</strong><a href={info.blog}>{info.blog}</a></li>
       </ul>
+
     </UserPreview>
-  )
+      )
 }
 
 Profile.propTypes = {
@@ -30,12 +32,16 @@ Profile.propTypes = {
 }
 
 function Player (props) {
+  const label = props.label
   return (
-    <div>
-      <h1 className='header'>{props.label}</h1>
-      <h3 style={{textAlign: 'center'}}>Score: {props.score}</h3>
-      <Profile info={props.profile} />
-    </div>
+    <div className={label}>
+      <ul className="list-group">
+        <li className="list-group-item active"><h1>{props.label}</h1></li>
+        <li className="list-group-item"><h3 style={{textAlign: 'center'}}>Score: <Badge variant="primary">{props.score}</Badge></h3></li>
+        <li><Profile info={props.profile} /></li>
+      </ul>
+      </div>
+
   )
 }
 
@@ -84,21 +90,31 @@ class Result extends React.Component {
 
     if(loading){
       return (
-        <Loading/>
+        <Loading text="Loading"/>
+      )
+    }
+    if(error){
+      return(
+        <div className="alert alert-danger">
+          <div>{error}</div>
+          <Link to='/battle'>Back</Link>
+        </div>
       )
     }
     return (
-    <Grid>
-      <Row>
-        <Col md={6}>
-          <Player label="winner" score={winner.score} profile={winner.profile}/>
-        </Col>
+      <div className={style.Result}>
+        <Grid>
+          <Row>
+            <Col md={6}>
+              <Player label="Winner" score={winner.score} profile={winner.profile}/>
+            </Col>
+            <Col md={6}>
+              <Player label='Loser' score={loser.score} profile={loser.profile}/>
+            </Col>
+          </Row>
 
-        <Col md={6}>
-          <Player label='loser' score={loser.score} profile={loser.profile}/>
-        </Col>
-      </Row>
-    </Grid>
+        </Grid>
+      </div>
     )
   }
 }

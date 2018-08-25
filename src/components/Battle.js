@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Grid,Row,Col,Button} from 'react-bootstrap';
+import {Grid,Row,Col,Button, Jumbotron} from 'react-bootstrap';
 import UserForm from './UserForm';
 import UserPreview from './UserPreview';
+import style from './Battle.scss';
+
 class Battle extends Component {
   constructor(props) {
     super(props);
@@ -41,50 +43,57 @@ class Battle extends Component {
     let playerTwoName = this.state.playerTwoName;
     let playerTwoImage = this.state.playerTwoImage;
     return (
-        <Grid>
-          <Row className="show-grid">
-            <Col md={6} sm={12}>
-              { !playerOneName && <UserForm id= "playerOne" label="Player One" onSubmit={this.handleSubmit} /> }
-              {  playerOneImage !== null &&
-                <UserPreview
-                  avatar={playerOneImage}
-                  username={playerOneName}>
-                  <Button bsStyle="link"
-                    onClick={this.handleReset.bind(this, 'playerOne')}>
-                    Reset
-                  </Button>
-                </UserPreview>
-              }
-            </Col>
+        <div className={style.BattleContainer}>
+          <Grid>
+            <Row>
+              <Col md={6} sm={12}>
+                <Jumbotron>
+                  { !playerOneName && <UserForm id= "playerOne" label="Player One" onSubmit={this.handleSubmit} /> }
+                  {  playerOneImage !== null &&
+                    <UserPreview
+                      avatar={playerOneImage}
+                      username={playerOneName}>
+                      <Button bsStyle="info"
+                        onClick={this.handleReset.bind(this, 'playerOne')}>
+                        Reset Me
+                      </Button>
+                    </UserPreview>
+                  }</Jumbotron>
+              </Col>
 
-            <Col md={6} sm={12}>
-              { !playerTwoName && <UserForm id= "playerTwo" label="Player Two" onSubmit={this.handleSubmit} /> }
-              {  playerTwoImage != null &&
-                <UserPreview
-                  avatar={playerTwoImage}
-                  username={playerTwoName}>
-                  <Button bsStyle="link"
-                    onClick={this.handleReset.bind(this, 'playerTwo')}>
-                    Reset
-                  </Button>
-                </UserPreview>
-              }
-            </Col>
-          </Row>
-          { playerOneImage && playerTwoImage && <Row>
-            <Col>
-              <Link
-                className='button'
-                to={{
-                    pathname: match.url + '/results',
-                    search: '?playerOneName=' + playerOneName + '&playerTwoName=' + playerTwoName
-                }}>
-                Battle
-              </Link>
-            </Col>
-          </Row>}
-        </Grid>
+              <Col md={6} sm={12}>
+                <Jumbotron>
+                  { !playerTwoName && <UserForm id= "playerTwo" label="Player Two" onSubmit={this.handleSubmit} /> }
+                  {  playerTwoImage != null &&
+                    <UserPreview
+                      avatar={playerTwoImage}
+                      username={playerTwoName}>
+                      <Button bsStyle="info"
+                        onClick={this.handleReset.bind(this, 'playerTwo')}>
+                        Reset Me
+                      </Button>
+                    </UserPreview>
+                  }
+                </Jumbotron>
+              </Col>
+            </Row>
+            { playerOneImage && playerTwoImage && <Row>
+              <Col>
+                <Button  size="lg" >
+                  <Link
 
+                    to={{
+                        pathname: match.url + '/results',
+                        search: '?playerOneName=' + playerOneName + '&playerTwoName=' + playerTwoName
+                    }}>
+                    Battle
+                  </Link>
+                </Button>
+              </Col>
+            </Row>}
+          </Grid>
+
+        </div>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Route,Switch,BrowserRouter as Router} from 'react-router-dom';
-import './App.css';
+import style from './App.scss';
 import Home from './components/home';
 import Battle from './components/Battle';
 import NotFound from './components/NotFound';
@@ -12,9 +12,9 @@ export default  class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className={style.App}>
         <Router>
-          <div className='container'>
+          <div className={style.SiteContainer}>
 
             <CustomNav/>
             <Switch>

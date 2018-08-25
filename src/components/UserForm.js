@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel,Button } from 'react-bootstrap';
+import { FormGroup,
+    FormControl,
+    ControlLabel,
+    Button, Form } from 'react-bootstrap';
+import style from './UserForm.scss';
+
 class UserForm extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +28,7 @@ class UserForm extends Component {
   }
   render() {
     return (
-      <form className='column' onSubmit={this.handleSubmit}>
+      <Form className={style.Form} onSubmit={this.handleSubmit}>
         <FormGroup controlId="formBasicText" >
           <ControlLabel htmlFor='formBasicText'>{this.props.label}</ControlLabel>
           <FormControl
@@ -33,14 +38,15 @@ class UserForm extends Component {
             autoComplete='off'
             onChange={this.handleChange}
           />
-          <Button
-            className='button'
-            type='submit'
-            disabled={!this.state.username}>
-            Submit
-          </Button>
+
         </FormGroup>
-      </form>
+        <Button
+          variant="info"
+          type='submit'
+          disabled={!this.state.username}>
+          Submit
+        </Button>
+      </Form>
     );
   }
 }

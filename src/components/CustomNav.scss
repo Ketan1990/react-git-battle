@@ -1,0 +1,9 @@
+.NavContainer {
+  margin-bottom:40px;
+ a{
+  &.active {
+       color:red;
+       font-weight:'bold';
+     }
+ }
+}
